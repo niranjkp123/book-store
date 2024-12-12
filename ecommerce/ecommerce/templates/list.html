@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between cards */
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .col {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px; /* Space between rows */
+        }
+
+        .card {
+            width: 100%; /* Adjusted card width */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .card-img-top {
+            width: 100%; /* Full width */
+            height: 150px; /* Adjusted height for better size */
+            object-fit: cover; /* Maintain aspect ratio */
+            border-bottom: 2px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+
+        .card-body {
+            padding: 15px; /* Slightly more padding for cleaner look */
+        }
+
+        .card-title {
+            font-size: 1.1rem; /* Adjusted font size */
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 0.95rem; /* Adjusted font size */
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .card-body li {
+            margin: 5px 0;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 8px 16px; /* Adjusted padding */
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px; /* Adjusted padding */
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #218838;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .text-primary {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        /* Hover effect on cards */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Image hover effect */
+        .card-img-top:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card {
+                width: 100%; /* Full width for smaller screens */
+            }
+
+            .card-img-top {
+                height: 150px; /* Adjusted height for smaller screens */
+            }
+        }
+    </style>
+
+</head>
+{% block content %}
+<body>
+
+<div class="container">
+    <div class="row">
+        {% for each in object_list %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <img src="{{ each.image_url }}" class="card-img-top" alt="{{ each.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ each.title }}</h5>
+                    <p class="card-text">${{ each.price|floatformat:2 }}</p>
+                    {% if each.book_available %}
+                    <li class="text-primary">Available</li>
+                    <a href="{% url 'detail-view' each.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'add_to_cart' each.id %}" class="btn btn-secondary">Add to Cart</a>
+                    {% else %}
+                    <li class="text-danger">Out of stock!</li>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+{% endblock content %}
+</html>
